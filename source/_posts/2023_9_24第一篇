@@ -1,0 +1,29 @@
+---
+title: vuex的store中 通过axios进行请求操作获取数据
+date: 2023/4/24
+---
+## vuex的store中 通过axios进行请求操作获取数据
+# hexo001
+#### 描述：
+在项目中遇到vuex的store中直接使用this.$axiosQ或者Vue.axios无法正确进行axios进行请求操作获取数据
+#### 原因
+在平时组件中能使用this.axios(通过Vue.prototype.axios(通过Vue.prototype.axios=axios的方式添加了原型链Q方法)的方式使用axios请求是因为其挂载到了vue的实例中，因而this的指向是Vue而vuex中this的指向是store,因此不能直接使用
+#### 解决方法
+直接引入axiosi而后通过其请求即可
+```
+////数据仓库中：src/store./modules/xxx.js
+//引入axios
+import axios from 'axios'
+actions:
+fetchorderList ({commit,state}){
+//而vuex中this的指向是store,因此不能使用
+//直接引入axios请求即可
+axios.post('请求地址').then((res)=>{
+commit('updataorderList',res.data.getorderList.list)
+}).catch((err)=>
+console.log(err)
+)
+
+
+```
+或者直接引用封装好的你自己的请求数据的api模块
